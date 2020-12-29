@@ -1,7 +1,7 @@
 Emotion Classification
 ==============================
 
-A short description of the project.
+This is a multi-class emotion classification project.
 
 Project Organization
 ------------

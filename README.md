@@ -1,7 +1,7 @@
-Emotion Classification
+Multi-class Emotion Detection of ISEAR Dataset
 ==============================
 
-This is a multi-class emotion classification project.
+This is a multi-class emotion classification project done in "Training for AI Engineers" program conducted by Fusemachines Nepal.
 
 Project Organization
 ------------

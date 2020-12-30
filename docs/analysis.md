@@ -45,5 +45,5 @@
 *Explore how you would solve the problem by using machine learning tools.*
 * Task: Emotion classification system
 * Approaches:
-    * i. Investigation and building of machine learning model.
-    * ii.  Investigation and building of deep learning model.
+    *  Investigation and building of machine learning model.
+    *  Investigation and building of deep learning model.

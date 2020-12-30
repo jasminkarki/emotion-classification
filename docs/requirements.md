@@ -55,7 +55,7 @@
 
 ## System Usage
 
-**Which of your staff will be using or involved in the product the most? **
+**Which of your staff will be using or involved in the product the most?**
 * Teachers
 
 **Will the system need to integrate with any other type of software? (These will influence how the system is built later on.)**

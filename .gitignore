@@ -89,3 +89,4 @@ target/
 .mypy_cache/
 
 /src/data/data.csv
+/notebooks/eda_anish.ipynb

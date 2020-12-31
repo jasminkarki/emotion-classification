@@ -40,7 +40,7 @@
 
 
 * Must-haves:
-> - must be able to classify emotions correctly.
+> - must be able to classify emotions with 70% accuracy (for now).
 
 * Should have
 > -
@@ -49,7 +49,7 @@
 > -
 
 **What are the acceptance criteria, if any? Please be specific. Eg: 20% decrease in manual responses to tickets. Do you have systems in place to measure those metrics? (If you can’t measure it, you can’t improve it.)**
-* 25% increase in the overall attendance of the batch.
+* 70% accuracy in the validation set of client.
 
 
 

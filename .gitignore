@@ -88,4 +88,6 @@ target/
 *.swp
 *.swo
 
+# Mypy cache
+.mypy_cache/
 

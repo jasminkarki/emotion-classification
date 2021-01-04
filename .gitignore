@@ -75,6 +75,9 @@ target/
 # Jupyter NB Checkpoints
 .ipynb_checkpoints/
 
+# Dataset
+*.csv/
+
 # exclude data from source control by default
 /data/
 
@@ -85,8 +88,4 @@ target/
 *.swp
 *.swo
 
-# Mypy cache
-.mypy_cache/
-
-/src/data/data.csv
 

@@ -16,7 +16,7 @@
 * Performance(P): Precision, recall
 
 *Assumptions:*
-* The dataset is labeled.
+* The dataset is assumed to be labeled.
 * If the text of the post contains words like: 
     * excited, sensuous, energetic, enthusiastic, etc. the emotion is happy. 
     * guilty, ashamed, depressed, etc. the emotion is sad.

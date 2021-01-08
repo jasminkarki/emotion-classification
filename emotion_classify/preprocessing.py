@@ -45,9 +45,9 @@ def preprocessing(df):
 
     df["text"] = df["text"].str.replace("\W+", " ", regex=True)
     df["text"] = df["text"].apply(lambda x: " ".join(x.lower() for x in x.split()))
-    df["text"] = df["text"].str.replace("\d", "")
+    df["text"] = df["text"].str.replace("\d", "", regex=True)
     df["text"] = df["text"].str.replace(r"[\t\n]+", "", regex=True)
-    df["text"] = df["text"].str.replace("[#,@,&,!]", " ")
+    df["text"] = df["text"].str.replace("[#,@,&,!]", " ", regex=True)
     df["text"] = df["text"].str.replace("\s+", " ", regex=True)
     stop_words = stopwords.words("english")
     df["text"] = df["text"].apply(

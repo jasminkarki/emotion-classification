@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title> Emotion Classification </title>
+        <link href = 'https://fonts.googleapis.com/css?family=Open+Sans' rel = 'stylesheet' type = 'text/css'>
+        <link type = "text/css" rel = "stylesheet" href = "{{ url_for('static', filename='style.css') }}">
+    </head>
+
+    <body>
+        <div class = "form_fill">
+            <h1>Let me predict your emotion</h1>
+        
+        <!-- Form for entering the text -->
+        <form method = "POST", action = "{{ url_for('home')}}">    <!--On pressing Submit search home function-->
+            <input type = "text" name = "text" placeholder="What's on your mind?" required = "required" /><br>
+            <button type = "submit" class = "btn btn-primary btn-block btn-large"> Predict </button>
+          </form>
+        </div>
+
+        <br> <h4 align="center" <b>{{pred}}</b></h4></br>
+    </body>
+</html>

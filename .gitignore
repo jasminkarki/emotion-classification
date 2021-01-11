@@ -93,3 +93,12 @@ target/
 
 # Mypy cache
 .mypy_cache/
+
+
+mlflow
+mlflow/**
+
+mlruns
+mlruns/**
+
+*.pkl

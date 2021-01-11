@@ -95,6 +95,5 @@ target/
 .mypy_cache/
 
 <<<<<<< HEAD
-/src/data/
 =======
 >>>>>>> 6cdcfa859bc4877a38ce9a48d09fce6739e403e9

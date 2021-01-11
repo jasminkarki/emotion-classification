@@ -32,7 +32,7 @@ def load_dataset(dataset_path, dataset_name):
         label_encoder,
         open(
             os.path.join(
-                config.BASE_DIR, "emotion_classify", "pickle_files", "label_encoder.pkl"
+                config.BASE_DIR, "emotion_classify", "checkpoints", "label_encoder.pkl"
             ),
             "wb",
         ),
@@ -72,7 +72,7 @@ def feature_vectorizer(X_train, X_test, vectorizer):
         vector,
         open(
             os.path.join(
-                config.BASE_DIR, "emotion_classify", "pickle_files", "vector.pkl"
+                config.BASE_DIR, "emotion_classify", "checkpoints", "vector.pkl"
             ),
             "wb",
         ),

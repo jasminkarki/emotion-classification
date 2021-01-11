@@ -17,7 +17,7 @@ def base_model(X_train_v, X_test_v, y_train, y_test, classifier, alpha):
         mnb,
         open(
             os.path.join(
-                config.BASE_DIR, "emotion_classify", "pickle_files", "model_nb.pkl"
+                config.BASE_DIR, "emotion_classify", "checkpoints", "model_nb.pkl"
             ),
             "wb",
         ),
@@ -25,7 +25,7 @@ def base_model(X_train_v, X_test_v, y_train, y_test, classifier, alpha):
     model = pickle.load(
         open(
             os.path.join(
-                config.BASE_DIR, "emotion_classify", "pickle_files", "model_nb.pkl"
+                config.BASE_DIR, "emotion_classify", "checkpoints", "model_nb.pkl"
             ),
             "rb",
         )
@@ -40,7 +40,7 @@ def inference(text):
     vector = pickle.load(
         open(
             os.path.join(
-                config.BASE_DIR, "emotion_classify", "pickle_files", "vector.pkl"
+                config.BASE_DIR, "emotion_classify", "checkpoints", "vector.pkl"
             ),
             "rb",
         )
@@ -49,7 +49,7 @@ def inference(text):
     model = pickle.load(
         open(
             os.path.join(
-                config.BASE_DIR, "emotion_classify", "pickle_files", "model_nb.pkl"
+                config.BASE_DIR, "emotion_classify", "checkpoints", "model_nb.pkl"
             ),
             "rb",
         )
@@ -58,7 +58,7 @@ def inference(text):
     label_inv_encoder = pickle.load(
         open(
             os.path.join(
-                config.BASE_DIR, "emotion_classify", "pickle_files", "label_encoder.pkl"
+                config.BASE_DIR, "emotion_classify", "checkpoints", "label_encoder.pkl"
             ),
             "rb",
         )

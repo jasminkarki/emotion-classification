@@ -26,7 +26,7 @@ def init_app():
     app = create_route(app)
 
     model = pickle.load(
-        open(os.path.join(BASE_DIR, "emotion_classify/pickle_files/model_nb.pkl"), "rb")
+        open(os.path.join(BASE_DIR, "emotion_classify/checkpoints/model_nb.pkl"), "rb")
     )
     app.config.from_pyfile(os.path.join(BASE_DIR, "emotion_classify/config/config.cfg"))
     CORS(app)

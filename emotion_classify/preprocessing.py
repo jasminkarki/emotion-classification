@@ -1,82 +1,74 @@
 import os
-import numpy as np
-import pandas as pd
-
 import re
 import pickle
+import argparse
+import sys
+from loguru import logger
 
 import nltk
+import pandas as pd
+import numpy as np
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
-
-import sklearn
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
-from .config import config
 
+from emotion_classify.config.config import *
 
-def load_dataset(dataset_path, dataset_name):
+# Configure loguru logger
+logger.add(sys.stderr, format="{time} {level} {message}", level="INFO")
 
+def load_dataset(dataset_path: str, dataset_name: str) -> pd.DataFrame:
+    """Load dataset from the given path and encode labels."""
     df = pd.read_csv(
         os.path.join(dataset_path, dataset_name),
         names=["ind", "emotion", "text"],
         header=None,
     )
-
     df.drop(columns=["ind"], inplace=True)
     labels = df["emotion"].values
-    label_encoder = LabelEncoder()
-    label_encoder = label_encoder.fit(labels)
-    pickle.dump(
-        label_encoder,
-        open(
-            os.path.join(
-                config.BASE_DIR, "emotion_classify", "checkpoints", "label_encoder.pkl"
-            ),
-            "wb",
-        ),
-    )
+    label_encoder = LabelEncoder().fit(labels)
+    
+    label_encoder_path = os.path.join(CHECKPOINT_DIR, "label_encoder.pkl")
+    with open(label_encoder_path, "wb") as f:
+        pickle.dump(label_encoder, f)    
+    logger.info("Label encoder saved at {}", label_encoder_path)
+    
     df["emotion"] = label_encoder.transform(labels)
     return df
 
+def preprocess_text(text: str) -> str:
+    """Clean and preprocess a single text entry."""
+    text = text.lower()
+    text = re.sub(r"\W+", " ", text)
+    text = re.sub(r"\d", "", text)
+    text = re.sub(r"[\t\n]+", "", text)
+    text = re.sub(r"[#,@,&,!]", " ", text)
+    text = re.sub(r"\s+", " ", text)
+    
+    stop_words = set(stopwords.words("english"))
+    words = [word for word in word_tokenize(text) if word not in stop_words]
+    return " ".join(words)
 
-def preprocessing(df):
+def preprocessing(dataframe: pd.DataFrame) -> pd.DataFrame:
+    """Apply text preprocessing to the dataset."""
+    dataframe["text"] = dataframe["text"].apply(preprocess_text)
+    return dataframe
 
-    df["text"] = df["text"].str.replace("\W+", " ", regex=True)
-    df["text"] = df["text"].apply(lambda x: " ".join(x.lower() for x in x.split()))
-    df["text"] = df["text"].str.replace("\d", "", regex=True)
-    df["text"] = df["text"].str.replace(r"[\t\n]+", "", regex=True)
-    df["text"] = df["text"].str.replace("[#,@,&,!]", " ", regex=True)
-    df["text"] = df["text"].str.replace("\s+", " ", regex=True)
-    stop_words = stopwords.words("english")
-    df["text"] = df["text"].apply(
-        lambda x: " ".join([word for word in x.split() if word not in (stop_words)])
+def train_test(dataframe: pd.DataFrame):
+    """Split the dataset into training and testing sets."""
+    return train_test_split(
+        dataframe["text"], dataframe["emotion"], random_state=RANDOM_STATE, test_size=TEST_SIZE
     )
-    return df
-
-
-def train_test(df):
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        df["text"], df["emotion"], random_state=64, test_size=0.2
-    )
-    return X_train, X_test, y_train, y_test
 
 
 def feature_vectorizer(X_train, X_test, vectorizer):
 
     vector = vectorizer(stop_words="english", lowercase=False)
     vector.fit(X_train)
-    pickle.dump(
-        vector,
-        open(
-            os.path.join(
-                config.BASE_DIR, "emotion_classify", "checkpoints", "vector.pkl"
-            ),
-            "wb",
-        ),
-    )
-    X_train = vector.transform(X_train)
-    X_test = vector.transform(X_test)
-    return X_train, X_test
+    vector_path = os.path.join(CHECKPOINT_DIR, "vector.pkl")
+    pickle.dump(vector, open(vector_path, "wb"))
+    logger.info("Feature vectorizer saved at {}", vector_path)
+    
+    return vector.transform(X_train), vector.transform(X_test)

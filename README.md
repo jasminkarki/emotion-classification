@@ -55,3 +55,13 @@ Project Organization
 --------
 
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+
+
+## Installation Steps:
+1. Create a conda environment with python==3.10, activate it, upgrade pip using command `pip install --upgrade pip` and install requirements. 
+    `pip install requirements.txt`
+
+2. Run main file to create pickle file of the vectorizer, encoder and model.
+    `python -m emotion_classify.main --alpha 1.0`
+
+3. 

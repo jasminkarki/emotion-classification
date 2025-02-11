@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Analysis with LIME Explanation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .positive { background-color: rgba(144, 238, 144, 0.5); }
+        .negative { background-color: rgba(255, 99, 71, 0.5); }
+    </style>
+</head>
+<body>
+    <h1>Emotion Analysis with LIME Explanation</h1>
+    <textarea id="textInput" rows="4" placeholder="Enter your text here..."></textarea>
+    <button onclick="analyzeEmotion()">Analyze Emotion</button>
+
+    <div id="results">
+        <h2>Results</h2>
+        <p>Predicted Emotion: <strong id="predictedEmotion"></strong></p>
+        
+        <h3>Word Contributions</h3>
+        <div id="wordContributions"></div>
+
+        <h3>LIME Explanation</h3>
+        <div id="limeExplanation"></div>
+    </div>
+
+    <script>
+        async function analyzeEmotion() {
+            const text = document.getElementById('textInput').value;
+            if (!text) {
+                alert('Please enter some text to analyze.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: text })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                displayResults(data);
+                await loadLimeExplanation();
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while analyzing the text. Please try again.');
+            }
+        }
+
+        function displayResults(data) {
+            document.getElementById('predictedEmotion').textContent = data.predicted_emotion;
+            displayWordContributions(data.word_contributions);
+        }
+
+        function displayWordContributions(contributions) {
+            const table = document.createElement('table');
+            table.innerHTML = `
+                <tr>
+                    <th>Word</th>
+                    <th>Contribution</th>
+                </tr>
+                ${contributions.map(([word, score]) => `
+                    <tr class="${score > 0 ? 'positive' : 'negative'}">
+                        <td>${word}</td>
+                        <td>${score.toFixed(2)}</td>
+                    </tr>
+                `).join('')}
+            `;
+            document.getElementById('wordContributions').innerHTML = '';
+            document.getElementById('wordContributions').appendChild(table);
+        }
+
+        async function loadLimeExplanation() {
+            try {
+                const response = await fetch('/lime_explanation.html');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const content = await response.text();
+                document.getElementById('limeExplanation').innerHTML = content;
+            } catch (error) {
+                console.error('Error loading LIME explanation:', error);
+                document.getElementById('limeExplanation').innerHTML = 'Failed to load LIME explanation.';
+            }
+        }
+    </script>
+</body>
+</html>

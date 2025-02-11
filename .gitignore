@@ -73,7 +73,7 @@ target/
 .spyproject/
 
 # Dataset
-*.csv/
+# *.csv/
 
 # Jupyter NB Checkpoints
 .ipynb_checkpoints/

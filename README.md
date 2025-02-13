@@ -64,4 +64,7 @@ Project Organization
 2. Run main file to create pickle file of the vectorizer, encoder and model.
     `python -m emotion_classify.main --alpha 1.0`
 
-3. 
+3. Run the mongodb server
+
+4. Once the required models are created, run app.py
+    `python app.py`
